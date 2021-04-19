@@ -6,20 +6,25 @@
 //
 
 import XCTest
-@testable import brewery
+//@testable import brewery
 
 class BrewMenuTests: XCTestCase {
 
-    /*func testSimpleSolution() throws {
+    var brewsMenu: BrewsMenu?
+    
+    override func setUpWithError() throws {
+        self.brewsMenu = BrewsMenu(parser: BeerRequestParser(), menuCreator: MenuCreator(), encoder: MenuEncoder())
+    }
+    
+    func testSimpleSolution() throws {
         let input = """
 5
 1 B 3 C 5 C
 2 C 3 B 4 C
 5 B
 """
-        let expected = "C C C C B"
-        let menu = BrewMenu.solve(input: input)
-        XCTAssertEqual(menu, expected)
+        let output = try self.brewsMenu!.generate(input: input)
+        XCTAssertEqual(output, "C C C C B")
     }
     
     func testNoSolution() throws {
@@ -28,8 +33,8 @@ class BrewMenuTests: XCTestCase {
 1 C
 1 B
 """
-        let menu = BrewMenu.solve(input: input)
-        XCTAssertNil(menu)
+        let output = try self.brewsMenu!.generate(input: input)
+        XCTAssertNil(output)
     }
     
     func testLargeSolution() throws {
@@ -50,9 +55,8 @@ class BrewMenuTests: XCTestCase {
 4 B
 5 C 4 B
 """
-        let expected = "C B C B C"
-        let menu = BrewMenu.solve(input: input)
-        XCTAssertEqual(menu, expected)
+        let output = try self.brewsMenu!.generate(input: input)
+        XCTAssertEqual(output, "C B C B C")
     }
     
     func testSmallSolution() throws {
@@ -62,7 +66,7 @@ class BrewMenuTests: XCTestCase {
 1 B
 """
         let expected = "B B"
-        let menu = BrewMenu.solve(input: input)
-        XCTAssertEqual(menu, expected)
-    }*/
+        let output = try self.brewsMenu!.generate(input: input)
+        XCTAssertEqual(output, expected)
+    }
 }

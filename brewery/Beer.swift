@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum BrewType {
-    case classic
-    case barrelAged
+enum BrewType: String {
+    case classic = "C"
+    case barrelAged = "B"
 }
 
 internal struct Beer {
