@@ -8,13 +8,13 @@
 import Foundation
 
 internal protocol IMenuEncoder {
-    func encode(beers: [Beer]) -> String
+    func encode(menu: Menu) -> String
 }
 
 internal class MenuEncoder: IMenuEncoder {
     
-    func encode(beers: [Beer]) -> String {
-        let characters = beers.map { $0.type.rawValue }
+    func encode(menu: Menu) -> String {
+        let characters = menu.beers.map { $0.type.rawValue }
         let output = characters.joined(separator: " ")
         return output
     }

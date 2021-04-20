@@ -12,7 +12,7 @@ enum BrewType: String {
     case barrelAged = "B"
 }
 
-internal struct Beer {
+internal struct Beer: Equatable {
     let id: Int
     let type: BrewType
 }

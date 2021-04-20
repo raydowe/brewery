@@ -21,8 +21,10 @@ internal class BrewsMenu {
     
     public func generate(input: String) throws -> String? {
         let (beerCount, customerPreferences) = try parser.parse(input: input)
-        let beers = menuCreator.generateMenu(beerCount: beerCount, customerPreferences: customerPreferences)
-        let output = encoder.encode(beers: beers)
+        guard let menu = menuCreator.generateMenu(beerCount: beerCount, customerPreferences: customerPreferences) else {
+            return ""
+        }
+        let output = encoder.encode(menu: menu)
         return output
     }
     
