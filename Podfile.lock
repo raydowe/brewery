@@ -1,0 +1,16 @@
+PODS:
+  - Combinatorics (1.4)
+
+DEPENDENCIES:
+  - Combinatorics
+
+SPEC REPOS:
+  trunk:
+    - Combinatorics
+
+SPEC CHECKSUMS:
+  Combinatorics: 890b1bc586642f25f81c2274572295c1fe3a6460
+
+PODFILE CHECKSUM: 9658b78690094dde97ef7a625aff64dbc76c2d26
+
+COCOAPODS: 1.10.1

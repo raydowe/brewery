@@ -17,7 +17,7 @@ class MenuCreatorTests: XCTestCase {
         customerPreferences.append(CustomerPreference(beers: [Beer(id: 2, type: .classic)]))
 
         let menuCreator = MenuCreator()
-        guard let beers = menuCreator.generateMenu(beerCount: beerCount, customerPreferences: customerPreferences) else {
+        guard let beers = menuCreator.generateMenu(beerCount: beerCount, customerPreferences: customerPreferences)?.beers else {
             XCTFail("Beers should not be nil")
             return
         }
@@ -37,7 +37,7 @@ class MenuCreatorTests: XCTestCase {
         customerPreferences.append(CustomerPreference(beers: [Beer(id: 2, type: .barrelAged)]))
 
         let menuCreator = MenuCreator()
-        guard let beers = menuCreator.generateMenu(beerCount: beerCount, customerPreferences: customerPreferences) else {
+        guard let beers = menuCreator.generateMenu(beerCount: beerCount, customerPreferences: customerPreferences)?.beers else {
             XCTFail("Beers should not be nil")
             return
         }
@@ -57,7 +57,7 @@ class MenuCreatorTests: XCTestCase {
         customerPreferences.append(CustomerPreference(beers: [Beer(id: 2, type: .barrelAged)]))
 
         let menuCreator = MenuCreator()
-        guard let beers = menuCreator.generateMenu(beerCount: beerCount, customerPreferences: customerPreferences) else {
+        guard let beers = menuCreator.generateMenu(beerCount: beerCount, customerPreferences: customerPreferences)?.beers else {
             XCTFail("Beers should not be nil")
             return
         }

@@ -19,7 +19,7 @@ class MenuEncoderTests: XCTestCase {
         beers.append(Beer(id: 5, type: .classic))
         
         let menuEncoder = MenuEncoder()
-        let output = menuEncoder.encode(beers: beers)
+        let output = menuEncoder.encode(menu: Menu(beers: beers))
         XCTAssert(output == "B C C B C")
     }
 }
