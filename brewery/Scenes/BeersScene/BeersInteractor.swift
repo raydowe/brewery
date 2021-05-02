@@ -10,6 +10,7 @@ import Foundation
 
 protocol BeersBusinessLogic {
     func loadAvailableMenu(request: Beers.LoadAvailableMenu.Request)
+    func selectMenuItem(request: Beers.SelectMenuItem.Request)
 }
 
 class BeersInteractor {
@@ -85,6 +86,14 @@ extension BeersInteractor: BeersBusinessLogic {
             customerPreferenceDownloader.receiver = self
             customerPreferenceDownloader.download(url: "https://gist.githubusercontent.com/LuigiPapinoDrop/d8ed153d5431bbad23e1e1c6b5ba1e3c/raw/4ec1c8064e51838240e941679d3ac063460685c2/code_challenge_richer.txt")
         }
+    }
+    
+    func selectMenuItem(request: Beers.SelectMenuItem.Request) {
+        if request.index >= self.beersDetails.count {
+            return
+        }
+        let beerDetails = self.beersDetails[request.index]
+        self.router?.navigateToBeer(id: beerDetails.id)
     }
 }
 

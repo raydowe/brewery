@@ -44,4 +44,11 @@ enum Beers {
             var beerViewModels: [BeerViewModel]
         }
     }
+    
+    enum SelectMenuItem {
+        
+        struct Request {
+            let index: Int
+        }
+    }
 }

@@ -22,6 +22,7 @@ class BeersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "BeersTableViewCell", bundle: nil), forCellReuseIdentifier: "BeersTableViewCell")
+        self.navigationItem.title = "Menu"
         self.loadMenu()
     }
     
@@ -56,6 +57,7 @@ extension BeersViewController: UITableViewDataSource {
 
 extension BeersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("\(indexPath.row)")
+        let request = Beers.SelectMenuItem.Request(index: indexPath.row)
+        self.interactor?.selectMenuItem(request: request)
     }
 }

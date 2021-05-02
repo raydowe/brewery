@@ -9,7 +9,7 @@
 import SwiftUI
 
 protocol BeersNavigation {
-    func navigateToBeer()
+    func navigateToBeer(id: Int)
 }
 
 class BeersRouter {
@@ -36,9 +36,12 @@ class BeersRouter {
 extension BeersRouter: BeersNavigation {
 
     // MARK: navigation logic methods
-    func navigateToBeer() {
-        //let beerViewController = BeersRouter.assemble()
-        //self.view?.present(beerViewController, animated: true, completion: nil)
+    func navigateToBeer(id: Int) {
+        guard let beerDetailsViewController = BeerDetailsRouter.assemble() as? UIViewController,
+              let beersViewController = self.viewController as? UIViewController else {
+            return
+        }
+        beersViewController.navigationController?.pushViewController(beerDetailsViewController, animated: true)
     }
 
 }
