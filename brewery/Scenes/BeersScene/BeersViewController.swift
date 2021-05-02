@@ -55,5 +55,7 @@ extension BeersViewController: UITableViewDataSource {
 }
 
 extension BeersViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("\(indexPath.row)")
+    }
 }

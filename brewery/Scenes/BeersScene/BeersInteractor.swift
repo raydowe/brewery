@@ -17,27 +17,64 @@ class BeersInteractor {
     var presenter: BeersPresentationLogic?
     var router: BeersNavigation?
     var beersDetails = [Beers.LoadAvailableMenu.Response.BeerDetails]()
+    var beerDetailsDownloader = BeerDetailsDownloader()
+    var beerDetailsParser = BeerDetailsParser()
+    var beerImageDownloader = BeerImageDownloader()
+    let queue = DispatchQueue(label: "ThreadSafeCollection.queue", attributes: .concurrent)
     
     func createMenu(preferences: String) {
+    
+        beerDetailsDownloader.receiver = self
+        beerImageDownloader.receiver = self
+        
         let parser = BeerRequestParser()
         let menuCreator = MenuCreator()
         guard let (beerCount, customerPreferences) = try? parser.parse(input: preferences),
               let menu = menuCreator.generateMenu(beerCount: beerCount, customerPreferences: customerPreferences) else {
-            // TODO: Menu not found display
             return
         }
         beersDetails = [Beers.LoadAvailableMenu.Response.BeerDetails]()
         for menuBeer in menu.beers {
-            let beerDetails = Beers.LoadAvailableMenu.Response.BeerDetails(id: menuBeer.id, loading: true, imageData: nil, name: nil, abv: nil, barrelAged: false)
-            loadBeerDetails(id: menuBeer.id)
+            let beerDetails = Beers.LoadAvailableMenu.Response.BeerDetails(id: menuBeer.id, loadingData: true, imageUrl: nil, imageData: nil, name: nil, abv: nil, barrelAged: menuBeer.type == .barrelAged)
+            beerDetailsDownloader.download(id: menuBeer.id)
             beersDetails.append(beerDetails)
         }
         let response = Beers.LoadAvailableMenu.Response(beersMenuDetails: beersDetails)
         self.presenter?.presentAvailableMenu(response: response)
     }
     
-    func loadBeerDetails(id: Int) {
-        
+    func updateBeerDetails(beerDetailsJSON: String) {
+        guard let beerDetailsJSON = beerDetailsParser.parse(beerDetailsJSON: beerDetailsJSON) else {
+            return
+        }
+        var updatedBeersDetails = [Beers.LoadAvailableMenu.Response.BeerDetails]()
+        for beerDetails in self.beersDetails {
+            if beerDetails.id == beerDetailsJSON.id {
+                let updatedBeerDetails = Beers.LoadAvailableMenu.Response.BeerDetails(id: beerDetailsJSON.id, loadingData: false, imageUrl:beerDetailsJSON.image_url, imageData: nil, name: beerDetailsJSON.name, abv: beerDetailsJSON.abv, barrelAged: beerDetails.barrelAged)
+                updatedBeersDetails.append(updatedBeerDetails)
+                beerImageDownloader.download(url: beerDetailsJSON.image_url)
+            } else {
+                updatedBeersDetails.append(beerDetails)
+            }
+        }
+        self.beersDetails = updatedBeersDetails
+        let response = Beers.LoadAvailableMenu.Response(beersMenuDetails: updatedBeersDetails)
+        self.presenter?.presentAvailableMenu(response: response)
+    }
+    
+    func updateImage(url: String, beerImageData: Data) {
+        var updatedBeersDetails = [Beers.LoadAvailableMenu.Response.BeerDetails]()
+        for beerDetails in self.beersDetails {
+            if beerDetails.imageUrl == url {
+                let updatedBeerDetails = Beers.LoadAvailableMenu.Response.BeerDetails(id: beerDetails.id, loadingData: false, imageUrl: beerDetails.imageUrl, imageData: beerImageData, name: beerDetails.name, abv: beerDetails.abv, barrelAged: beerDetails.barrelAged)
+                updatedBeersDetails.append(updatedBeerDetails)
+            } else {
+                updatedBeersDetails.append(beerDetails)
+            }
+        }
+        self.beersDetails = updatedBeersDetails
+        let response = Beers.LoadAvailableMenu.Response(beersMenuDetails: updatedBeersDetails)
+        self.presenter?.presentAvailableMenu(response: response)
     }
 }
 
@@ -54,5 +91,17 @@ extension BeersInteractor: BeersBusinessLogic {
 extension BeersInteractor: IPreferenceReceiver {
     func preferencesReceived(preferences: String) {
         self.createMenu(preferences: preferences)
+    }
+}
+
+extension BeersInteractor: IBeerDetailsReceiver {
+    func beerDetailsReceived(beerDetailsJSON: String) {
+        self.updateBeerDetails(beerDetailsJSON: beerDetailsJSON)
+    }
+}
+
+extension BeersInteractor: IBeerImageReceiver {
+    func beerImageDataReceived(url: String, beerImageData: Data) {
+        self.updateImage(url: url, beerImageData: beerImageData)
     }
 }

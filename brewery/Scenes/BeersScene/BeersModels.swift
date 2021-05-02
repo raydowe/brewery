@@ -19,7 +19,8 @@ enum Beers {
             
             struct BeerDetails {
                 let id: Int
-                let loading: Bool
+                let loadingData: Bool
+                let imageUrl: String?
                 let imageData: Data?
                 let name: String?
                 let abv: Float?
@@ -32,7 +33,8 @@ enum Beers {
         struct ViewModel {
             
             struct BeerViewModel {
-                let loading: Bool
+                let showDetailsSpinner: Bool
+                let showImageSpinner: Bool
                 let image: UIImage?
                 let name: String?
                 let abv: String?

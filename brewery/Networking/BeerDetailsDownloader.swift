@@ -9,7 +9,7 @@ import Foundation
 import SwiftHTTP
 
 protocol IBeerDetailsReceiver {
-    func beerDetailsReceived(beerDetails: String)
+    func beerDetailsReceived(beerDetailsJSON: String)
 }
 
 protocol IBeerDetailsDownloader {
@@ -28,10 +28,10 @@ class BeerDetailsDownloader: IBeerDetailsDownloader {
                 print("error: \(err.localizedDescription)")
                 return
             }
-            guard let beerDetails = String(data: response.data, encoding: .utf8) else {
+            guard let beerDetailsJSON = String(data: response.data, encoding: .utf8) else {
                 return
             }
-            self.receiver?.beerDetailsReceived(beerDetails: beerDetails)
+            self.receiver?.beerDetailsReceived(beerDetailsJSON: beerDetailsJSON)
         }
     }
 }

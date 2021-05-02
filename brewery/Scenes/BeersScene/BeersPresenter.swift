@@ -13,19 +13,25 @@ protocol BeersPresentationLogic {
 }
 
 class BeersPresenter {
+    
     var viewController: BeersDisplayLogic?
     
     private func makeViewModel(beersDetails: [Beers.LoadAvailableMenu.Response.BeerDetails]) -> [Beers.LoadAvailableMenu.ViewModel.BeerViewModel] {
         var beersViewModel = [Beers.LoadAvailableMenu.ViewModel.BeerViewModel]()
-        for beerDetails in beersDetails {
-            if beerDetails.loading {
-                let beerViewModel = Beers.LoadAvailableMenu.ViewModel.BeerViewModel(loading: true, image: nil, name: nil, abv: nil, style: nil)
+        
+        let sortedBeerDetails = beersDetails.sorted(by: { $0.id < $1.id } )
+        
+        for beerDetails in sortedBeerDetails {
+            if beerDetails.loadingData {
+                let beerViewModel = Beers.LoadAvailableMenu.ViewModel.BeerViewModel(showDetailsSpinner: true, showImageSpinner: false,  image: nil, name: nil, abv: nil, style: nil)
                 beersViewModel.append(beerViewModel)
                 continue
             }
             
+            var showImageSpinner = true
             var image:UIImage? = nil
             if let imageData = beerDetails.imageData {
+                showImageSpinner = false
                 image = UIImage(data: imageData)
             }
             
@@ -38,9 +44,10 @@ class BeersPresenter {
             if let barrelAged = beerDetails.barrelAged {
                 style = (barrelAged) ? "Barrel Aged" : "Classic"
             }
-            let beerViewModel = Beers.LoadAvailableMenu.ViewModel.BeerViewModel(loading: false, image: image, name: name, abv: abv, style: style)
+            let beerViewModel = Beers.LoadAvailableMenu.ViewModel.BeerViewModel(showDetailsSpinner: false, showImageSpinner: showImageSpinner, image: image, name: name, abv: abv, style: style)
             beersViewModel.append(beerViewModel)
         }
+        
         return beersViewModel
     }
 }

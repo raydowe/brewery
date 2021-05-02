@@ -9,7 +9,8 @@ import UIKit
 
 class BeersTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var loadingSpinner: UIActivityIndicatorView!
+    @IBOutlet weak var loadingDetailsSpinner: UIActivityIndicatorView!
+    @IBOutlet weak var loadingImageSpinner: UIActivityIndicatorView!
     @IBOutlet weak var beerImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var abvLabel: UILabel!
@@ -23,22 +24,37 @@ class BeersTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
 
+    override func prepareForReuse() {
+        beerImageView.isHidden = true
+        nameLabel.text = ""
+        abvLabel.text = ""
+        styleLabel.text = ""
+    }
+    
     func display(beerViewModel: Beers.LoadAvailableMenu.ViewModel.BeerViewModel) {
-        if (beerViewModel.loading) {
-            if !loadingSpinner.isAnimating {
-                loadingSpinner.startAnimating()
+        if (beerViewModel.showDetailsSpinner) {
+            if !loadingDetailsSpinner.isAnimating {
+                loadingDetailsSpinner.startAnimating()
             }
-            beerImageView.isHidden = true
-            nameLabel.text = ""
-            abvLabel.text = ""
-            styleLabel.text = ""
-            return
+        } else {
+            loadingDetailsSpinner.stopAnimating()
+            loadingDetailsSpinner.isHidden = true;
         }
         
-        loadingSpinner.stopAnimating()
-        loadingSpinner.isHidden = true;
+        if (beerViewModel.showImageSpinner) {
+            if !loadingImageSpinner.isAnimating {
+                loadingImageSpinner.startAnimating()
+            }
+        } else {
+            loadingImageSpinner.stopAnimating()
+            loadingImageSpinner.isHidden = true;
+        }
         
-        beerImageView.image = beerViewModel.image
+        if let beerImage = beerViewModel.image {
+            beerImageView.isHidden = false
+            beerImageView.image = beerImage
+        }
+        
         nameLabel.text = beerViewModel.name
         abvLabel.text = beerViewModel.abv
         styleLabel.text = beerViewModel.style
