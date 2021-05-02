@@ -7,6 +7,7 @@ target 'brewery' do
 
   # Pods for brewery
   pod 'Combinatorics'
+  pod 'SwiftHTTP'
 
   target 'breweryTests' do
     inherit! :search_paths

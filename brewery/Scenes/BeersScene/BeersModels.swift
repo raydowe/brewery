@@ -13,15 +13,14 @@ enum Beers {
     enum LoadAvailableMenu {
 
         struct Request {
-            
         }
 
         struct Response {
-            
+            var menu: Menu
         }
 
         struct ViewModel {
-            
+            var beerIds: [String]
         }
     }
 }

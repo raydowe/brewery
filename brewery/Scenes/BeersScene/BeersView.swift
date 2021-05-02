@@ -15,10 +15,23 @@ protocol BeersDisplayLogic {
 struct BeersView: View {
 
     var interactor: BeersBusinessLogic?
+    private var ids:[String] = [String]()
 
+    private func loadMenu() {
+        let request = Beers.LoadAvailableMenu.Request()
+        self.interactor?.loadAvailableMenu(request: request)
+    }
+    
     var body: some View {
-        Text("Hello, Beer!")
+        List(ids, id: \.self) { id in
+                        Text(id)
+                    }//.font(.largeTitle)
+        
+        /*Text("Test Menu...")
             .padding()
+            .onAppear(perform: {
+                self.loadMenu()
+            })*/
     }
 }
 
@@ -30,5 +43,6 @@ struct BeersView_Previews: PreviewProvider {
 
 extension BeersView: BeersDisplayLogic {
     func displayAvailableBeers(viewModel: Beers.LoadAvailableMenu.ViewModel) {
+        ids = viewModel.beerIds
     }
 }

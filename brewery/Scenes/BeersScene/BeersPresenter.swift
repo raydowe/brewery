@@ -19,7 +19,8 @@ class BeersPresenter {
 extension BeersPresenter: BeersPresentationLogic {
 
     func presentAvailableMenu(response: Beers.LoadAvailableMenu.Response) {
-        let viewModel = Beers.LoadAvailableMenu.ViewModel()
+        let beerIds = response.menu.beers.map{ String($0.id) }
+        let viewModel = Beers.LoadAvailableMenu.ViewModel(beerIds: beerIds)
         view?.displayAvailableBeers(viewModel: viewModel)
     }
 
