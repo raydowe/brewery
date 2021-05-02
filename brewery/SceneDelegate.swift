@@ -16,7 +16,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let beersViewController = BeersRouter.assemble() as! BeersViewController
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            //window.rootViewController = UIHostingController(rootView: beersView)
             window.rootViewController = beersViewController
             self.window = window
             window.makeKeyAndVisible()

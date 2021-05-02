@@ -13,8 +13,10 @@ protocol BeersBusinessLogic {
 }
 
 class BeersInteractor {
+    
     var presenter: BeersPresentationLogic?
     var router: BeersNavigation?
+    var beersDetails = [Beers.LoadAvailableMenu.Response.BeerDetails]()
     
     func createMenu(preferences: String) {
         let parser = BeerRequestParser()
@@ -24,8 +26,18 @@ class BeersInteractor {
             // TODO: Menu not found display
             return
         }
-        let response = Beers.LoadAvailableMenu.Response(menu: menu)
+        beersDetails = [Beers.LoadAvailableMenu.Response.BeerDetails]()
+        for menuBeer in menu.beers {
+            let beerDetails = Beers.LoadAvailableMenu.Response.BeerDetails(id: menuBeer.id, loading: true, imageData: nil, name: nil, abv: nil, barrelAged: false)
+            loadBeerDetails(id: menuBeer.id)
+            beersDetails.append(beerDetails)
+        }
+        let response = Beers.LoadAvailableMenu.Response(beersMenuDetails: beersDetails)
         self.presenter?.presentAvailableMenu(response: response)
+    }
+    
+    func loadBeerDetails(id: Int) {
+        
     }
 }
 

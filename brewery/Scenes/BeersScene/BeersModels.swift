@@ -6,7 +6,7 @@
 //  Copyright (c) 2021 ___ORGANIZATIONNAME___. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 enum Beers {
 
@@ -16,11 +16,30 @@ enum Beers {
         }
 
         struct Response {
-            var menu: Menu
+            
+            struct BeerDetails {
+                let id: Int
+                let loading: Bool
+                let imageData: Data?
+                let name: String?
+                let abv: Float?
+                let barrelAged: Bool?
+            }
+            
+            var beersMenuDetails: [BeerDetails]
         }
 
         struct ViewModel {
-            var beerIds: [String]
+            
+            struct BeerViewModel {
+                let loading: Bool
+                let image: UIImage?
+                let name: String?
+                let abv: String?
+                let style: String?
+            }
+
+            var beerViewModels: [BeerViewModel]
         }
     }
 }
