@@ -14,22 +14,22 @@ protocol BeersNavigation {
 
 class BeersRouter {
 
-    private var view: BeersView?
+    private var viewController: BeersDisplayLogic?
 
-    static func assemble() -> BeersView {
+    static func assemble() -> BeersDisplayLogic {
 
-        var view = BeersView()
+        let viewController = BeersViewController()
         let presenter = BeersPresenter()
         let router = BeersRouter()
         let interactor = BeersInteractor()
 
-        router.view = view
+        router.viewController = viewController
         interactor.router = router
         interactor.presenter = presenter
-        view.interactor = interactor
-        presenter.view = view
+        viewController.interactor = interactor
+        presenter.viewController = viewController
 
-        return view
+        return viewController
     }
 }
 

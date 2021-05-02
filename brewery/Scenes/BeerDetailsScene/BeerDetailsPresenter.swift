@@ -13,13 +13,13 @@ protocol BeerDetailsPresentationLogic {
 }
 
 class BeerDetailsPresenter {
-    var view: BeerDetailsDisplayLogic?
+    var viewController: BeerDetailsDisplayLogic?
 }
 
 extension BeerDetailsPresenter: BeerDetailsPresentationLogic {
     func presentAvailableMenu(response: BeerDetails.ShowBeerDetails.Response) {
         let viewModel = BeerDetails.ShowBeerDetails.ViewModel()
-        view?.displayBeerDetails(viewModel: viewModel)
+        viewController?.displayBeerDetails(viewModel: viewModel)
     }
 
 }

@@ -13,7 +13,7 @@ protocol BeersPresentationLogic {
 }
 
 class BeersPresenter {
-    var view: BeersDisplayLogic?
+    var viewController: BeersDisplayLogic?
 }
 
 extension BeersPresenter: BeersPresentationLogic {
@@ -21,7 +21,7 @@ extension BeersPresenter: BeersPresentationLogic {
     func presentAvailableMenu(response: Beers.LoadAvailableMenu.Response) {
         let beerIds = response.menu.beers.map{ String($0.id) }
         let viewModel = Beers.LoadAvailableMenu.ViewModel(beerIds: beerIds)
-        view?.displayAvailableBeers(viewModel: viewModel)
+        viewController?.displayAvailableMenu(viewModel: viewModel)
     }
 
 }
