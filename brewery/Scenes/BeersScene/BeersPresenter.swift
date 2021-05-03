@@ -38,7 +38,7 @@ class BeersPresenter {
             let name = beerDetails.name
             var abv = "?"
             if let abvValue = beerDetails.abv {
-                abv = "\(abvValue)%"
+                abv = "\(abvValue)% ABV"
             }
             var style = "Unknown"
             if let barrelAged = beerDetails.barrelAged {

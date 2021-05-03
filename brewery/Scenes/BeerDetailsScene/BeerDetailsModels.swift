@@ -6,7 +6,7 @@
 //  Copyright (c) 2021 ___ORGANIZATIONNAME___. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 enum BeerDetails {
 
@@ -74,5 +74,21 @@ enum BeerDetails {
             let description: String
             let sections: [Section]
         }
+    }
+    
+    enum LoadImage {
+        
+        struct Request {
+            let url: String
+        }
+        
+        struct Response {
+            let imageData: Data
+        }
+        
+        struct ViewModel {
+            let image: UIImage
+        }
+        
     }
 }

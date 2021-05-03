@@ -9,6 +9,7 @@ import UIKit
 
 protocol BeerDetailsDisplayLogic {
     func displayBeerDetails(viewModel: BeerDetails.ShowBeerDetails.ViewModel)
+    func displayImage(viewModel: BeerDetails.LoadImage.ViewModel)
 }
 
 class BeerDetailsViewController: UIViewController {
@@ -39,19 +40,27 @@ class BeerDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Details"
+        descriptionTextView.textContainer.lineFragmentPadding = 0
         tableView.register(UINib(nibName: "BeerDetailsTableViewCell", bundle: nil), forCellReuseIdentifier: "BeerDetailsTableViewCell")
         if let beerId = self.beerId {
             loadBeerDetails(beerId: beerId)
         }
     }
     
-    func loadBeerDetails(beerId: Int) {
+    private func loadBeerDetails(beerId: Int) {
         let request = BeerDetails.ShowBeerDetails.Request(id: beerId)
         self.interactor?.loadBeerDetails(request: request)
+    }
+    
+    private func loadImage(imageUrl: String) {
+        let request = BeerDetails.LoadImage.Request(url: imageUrl)
+        self.interactor?.loadImage(request: request)
     }
 }
 
 extension BeerDetailsViewController: BeerDetailsDisplayLogic {
+    
     func displayBeerDetails(viewModel: BeerDetails.ShowBeerDetails.ViewModel) {
         DispatchQueue.main.async {
             self.nameLabel.text = viewModel.name
@@ -59,6 +68,13 @@ extension BeerDetailsViewController: BeerDetailsDisplayLogic {
             self.descriptionTextView.text = viewModel.description
             self.sections = viewModel.sections
             self.tableView.reloadData()
+            self.loadImage(imageUrl: viewModel.imageUrl)
+        }
+    }
+    
+    func displayImage(viewModel: BeerDetails.LoadImage.ViewModel) {
+        DispatchQueue.main.async {
+            self.imageView.image = viewModel.image
         }
     }
 }

@@ -10,6 +10,7 @@ import Foundation
 
 protocol BeerDetailsBusinessLogic {
     func loadBeerDetails(request: BeerDetails.ShowBeerDetails.Request)
+    func loadImage(request: BeerDetails.LoadImage.Request)
 }
 
 class BeerDetailsInteractor {
@@ -18,13 +19,15 @@ class BeerDetailsInteractor {
     var router: BeerDetailsNavigation?
     
     var beerDetailsDownloader = BeerDetailsDownloader()
+    var beerImageDownloader = BeerImageDownloader()
     var beerDetailsParser = BeerDetailsParser()
     
     init() {
         beerDetailsDownloader.receiver = self
+        beerImageDownloader.receiver = self
     }
     
-    func updateBeerDetails(beerDetailsJSON: String) {
+    private func updateBeerDetails(beerDetailsJSON: String) {
         guard let beerDetailsJSON = beerDetailsParser.parse(beerDetailsJSON: beerDetailsJSON) else {
             return
         }
@@ -41,7 +44,13 @@ class BeerDetailsInteractor {
         self.presenter?.presentBeerDetails(response: response)
     }
     
-    func hopsForJSON(_ hopsJSON: [HopJSON]) -> [BeerDetails.ShowBeerDetails.Response.Hop] {
+    
+    private func updateImage(beerImageData: Data) {
+        let response = BeerDetails.LoadImage.Response(imageData: beerImageData)
+        self.presenter?.presentImage(response: response)
+    }
+    
+    private func hopsForJSON(_ hopsJSON: [HopJSON]) -> [BeerDetails.ShowBeerDetails.Response.Hop] {
         var hops = [BeerDetails.ShowBeerDetails.Response.Hop]()
         for hopJSON in hopsJSON {
             let name = hopJSON.name
@@ -54,7 +63,7 @@ class BeerDetailsInteractor {
         return hops
     }
     
-    func maltsForJSON(_ maltsJSON: [MaltJSON]) -> [BeerDetails.ShowBeerDetails.Response.Malt] {
+    private func maltsForJSON(_ maltsJSON: [MaltJSON]) -> [BeerDetails.ShowBeerDetails.Response.Malt] {
         var malts = [BeerDetails.ShowBeerDetails.Response.Malt]()
         for maltJSON in maltsJSON {
             let amount = amountForJSON(maltJSON.amount)
@@ -64,12 +73,12 @@ class BeerDetailsInteractor {
         return malts
     }
     
-    func amountForJSON(_ amountJSON: AmountJSON) -> BeerDetails.ShowBeerDetails.Response.Amount {
+    private func amountForJSON(_ amountJSON: AmountJSON) -> BeerDetails.ShowBeerDetails.Response.Amount {
         let amount = BeerDetails.ShowBeerDetails.Response.Amount(value: amountJSON.value, unit: amountJSON.unit)
         return amount
     }
     
-    func mashTempsForJSON(_ mashTempsJSON: [MashTempJSON]) -> [BeerDetails.ShowBeerDetails.Response.MashTemp] {
+    private func mashTempsForJSON(_ mashTempsJSON: [MashTempJSON]) -> [BeerDetails.ShowBeerDetails.Response.MashTemp] {
         var mashTemps = [BeerDetails.ShowBeerDetails.Response.MashTemp]()
         for mashTempJSON in mashTempsJSON {
             let temp = BeerDetails.ShowBeerDetails.Response.Temp(value: mashTempJSON.temp.value, unit: mashTempJSON.temp.unit)
@@ -86,16 +95,23 @@ extension BeerDetailsInteractor: BeerDetailsBusinessLogic {
         DispatchQueue.global(qos: .userInitiated).async {
             self.beerDetailsDownloader.download(id: request.id)
         }
-        
-        
-        
-        //let response = BeerDetails.ShowBeerDetails.Response(name: name, abv: abv, imageUrl: <#T##String#>, description: <#T##String#>, hops: <#T##[String]#>, malts: <#T##[String]#>, methods: <#T##[String]#>)
-        //presenter?.presentAvailableMenu(response: response)
+    }
+    
+    func loadImage(request: BeerDetails.LoadImage.Request) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.beerImageDownloader.download(url: request.url)
+        }
     }
 }
 
 extension BeerDetailsInteractor: IBeerDetailsReceiver {
     func beerDetailsReceived(beerDetailsJSON: String) {
         updateBeerDetails(beerDetailsJSON: beerDetailsJSON)
+    }
+}
+
+extension BeerDetailsInteractor: IBeerImageReceiver {
+    func beerImageDataReceived(url: String, beerImageData: Data) {
+        updateImage(beerImageData: beerImageData)
     }
 }

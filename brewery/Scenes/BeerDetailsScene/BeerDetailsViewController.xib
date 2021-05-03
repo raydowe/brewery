@@ -24,26 +24,26 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="swf-YR-gMx">
-                    <rect key="frame" x="20" y="60" width="150" height="228"/>
+                    <rect key="frame" x="20" y="60" width="130" height="216.5"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="150" id="C16-5E-VYM"/>
-                        <constraint firstAttribute="width" secondItem="swf-YR-gMx" secondAttribute="height" multiplier="73:111" id="ayq-eO-3pt"/>
+                        <constraint firstAttribute="width" constant="130" id="C16-5E-VYM"/>
+                        <constraint firstAttribute="width" secondItem="swf-YR-gMx" secondAttribute="height" multiplier="3:5" id="ayq-eO-3pt"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vaM-2G-kzN">
-                    <rect key="frame" x="190" y="60" width="204" height="21"/>
+                    <rect key="frame" x="170" y="60" width="224" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CZT-Q9-7sh">
-                    <rect key="frame" x="190" y="89" width="204" height="17"/>
+                    <rect key="frame" x="170" y="84" width="224" height="17"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <nil key="textColor"/>
+                    <color key="textColor" systemColor="secondaryLabelColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mLM-El-7PO">
-                    <rect key="frame" x="190" y="114" width="204" height="174"/>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mLM-El-7PO">
+                    <rect key="frame" x="170" y="101" width="224" height="175.5"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                     <color key="textColor" systemColor="labelColor"/>
@@ -51,7 +51,7 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bC6-XU-ESY">
-                    <rect key="frame" x="20" y="296" width="374" height="566"/>
+                    <rect key="frame" x="20" y="284.5" width="374" height="577.5"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="ZmO-hH-pCT"/>
@@ -68,8 +68,8 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="CZT-Q9-7sh" secondAttribute="trailing" constant="20" id="6C5-zf-hbX"/>
                 <constraint firstItem="bC6-XU-ESY" firstAttribute="top" secondItem="swf-YR-gMx" secondAttribute="bottom" constant="8" id="6hq-ko-lah"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="bC6-XU-ESY" secondAttribute="trailing" constant="20" id="7ev-2b-CAh"/>
-                <constraint firstItem="mLM-El-7PO" firstAttribute="top" secondItem="CZT-Q9-7sh" secondAttribute="bottom" constant="8" id="8rh-dP-hEA"/>
-                <constraint firstItem="CZT-Q9-7sh" firstAttribute="top" secondItem="vaM-2G-kzN" secondAttribute="bottom" constant="8" id="S9T-7k-Aka"/>
+                <constraint firstItem="mLM-El-7PO" firstAttribute="top" secondItem="CZT-Q9-7sh" secondAttribute="bottom" id="8rh-dP-hEA"/>
+                <constraint firstItem="CZT-Q9-7sh" firstAttribute="top" secondItem="vaM-2G-kzN" secondAttribute="bottom" constant="3" id="S9T-7k-Aka"/>
                 <constraint firstItem="vaM-2G-kzN" firstAttribute="leading" secondItem="swf-YR-gMx" secondAttribute="trailing" constant="20" id="XX4-aR-24x"/>
                 <constraint firstItem="mLM-El-7PO" firstAttribute="leading" secondItem="swf-YR-gMx" secondAttribute="trailing" constant="20" id="XgL-aM-TX2"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="vaM-2G-kzN" secondAttribute="trailing" constant="20" id="dMt-fD-Y6n"/>
@@ -85,6 +85,9 @@
     <resources>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

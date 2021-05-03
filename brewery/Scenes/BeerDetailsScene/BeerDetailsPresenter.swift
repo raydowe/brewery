@@ -6,37 +6,24 @@
 //  Copyright (c) 2021 ___ORGANIZATIONNAME___. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol BeerDetailsPresentationLogic {
     func presentBeerDetails(response: BeerDetails.ShowBeerDetails.Response)
+    func presentImage(response: BeerDetails.LoadImage.Response)
 }
 
 class BeerDetailsPresenter {
-    var viewController: BeerDetailsDisplayLogic?
-}
-
-extension BeerDetailsPresenter: BeerDetailsPresentationLogic {
     
-    func presentBeerDetails(response: BeerDetails.ShowBeerDetails.Response) {
-        let name = response.name
-        let abv = "\(response.abv)% ABV"
-        let imageUrl = response.imageUrl
-        let description = response.description
-        let hops = hopsStrings(response.hops)
-        let hopsSection = BeerDetails.ShowBeerDetails.ViewModel.Section(title: "Hops", items: hops)
-        let malts = maltsStrings(response.malts)
-        let maltSection = BeerDetails.ShowBeerDetails.ViewModel.Section(title: "Malts", items: malts)
-        let methods = methodStrings(mashTemps: response.mashTemps, fermentation: response.fermentation, twist: response.twist)
-        let methodsSection = BeerDetails.ShowBeerDetails.ViewModel.Section(title: "Methods", items: methods)
-        let sections = [hopsSection, maltSection, methodsSection]
-        let viewModel = BeerDetails.ShowBeerDetails.ViewModel(name: name, abv: abv, imageUrl: imageUrl, description: description, sections: sections)
-        viewController?.displayBeerDetails(viewModel: viewModel)
-    }
+    var viewController: BeerDetailsDisplayLogic?
     
     func hopsStrings(_ hops: [BeerDetails.ShowBeerDetails.Response.Hop]) -> [String] {
         let strings = hops.map { hop -> String in
-            return "\(hop.name), \(hop.amount.value) \(hop.amount.unit) at the \(hop.add) for \(hop.attribute)"
+            var timeString = "at"
+            if hop.add == "middle" {
+                timeString = "in"
+            }
+            return "\(hop.name), \(hop.amount.value) \(hop.amount.unit) \(timeString) the \(hop.add) for \(hop.attribute)"
         }
         return strings
     }
@@ -69,5 +56,31 @@ extension BeerDetailsPresenter: BeerDetailsPresentationLogic {
         
         return strings
     }
+}
 
+extension BeerDetailsPresenter: BeerDetailsPresentationLogic {
+    
+    func presentBeerDetails(response: BeerDetails.ShowBeerDetails.Response) {
+        let name = response.name
+        let abv = "\(response.abv)% ABV"
+        let imageUrl = response.imageUrl
+        let description = response.description
+        let hops = hopsStrings(response.hops)
+        let hopsSection = BeerDetails.ShowBeerDetails.ViewModel.Section(title: "Hops", items: hops)
+        let malts = maltsStrings(response.malts)
+        let maltSection = BeerDetails.ShowBeerDetails.ViewModel.Section(title: "Malts", items: malts)
+        let methods = methodStrings(mashTemps: response.mashTemps, fermentation: response.fermentation, twist: response.twist)
+        let methodsSection = BeerDetails.ShowBeerDetails.ViewModel.Section(title: "Methods", items: methods)
+        let sections = [hopsSection, maltSection, methodsSection]
+        let viewModel = BeerDetails.ShowBeerDetails.ViewModel(name: name, abv: abv, imageUrl: imageUrl, description: description, sections: sections)
+        viewController?.displayBeerDetails(viewModel: viewModel)
+    }
+    
+    func presentImage(response: BeerDetails.LoadImage.Response) {
+        guard let image = UIImage(data: response.imageData) else {
+            return
+        }
+        let viewModel = BeerDetails.LoadImage.ViewModel(image: image)
+        viewController?.displayImage(viewModel: viewModel)
+    }
 }
