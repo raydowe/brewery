@@ -25,10 +25,19 @@ struct IngredientJSON: Decodable {
 
 struct HopJSON: Decodable {
     let name: String
+    let amount: AmountJSON
+    let add: String
+    let attribute: String
 }
 
 struct MaltJSON: Decodable {
     let name: String
+    let amount: AmountJSON
+}
+
+struct AmountJSON: Decodable {
+    let value: Float
+    let unit: String
 }
 
 struct MethodJSON: Decodable {

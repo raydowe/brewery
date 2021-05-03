@@ -32,17 +32,52 @@ class BeerDetailsInteractor {
         let abv = beerDetailsJSON.abv
         let imageUrl = beerDetailsJSON.image_url
         let description = beerDetailsJSON.description
-        let hops = beerDetailsJSON.ingredients.hops.map( { $0.name })
-        
-        //let malts = beerDetailsJSON.malts
-        let malts = [String]()
-        //let methods = beerDetailsJSON.methods
-        let methods = [String]()
-        
-        let response = BeerDetails.ShowBeerDetails.Response(name: name, abv: abv, imageUrl: imageUrl, description: description, hops: hops, malts: malts, methods: methods)
+        let hops = hopsForJSON(beerDetailsJSON.ingredients.hops)
+        let malts = maltsForJSON(beerDetailsJSON.ingredients.malt)
+        let mashTemps = mashTempsForJSON(beerDetailsJSON.method.mash_temp)
+        let fermentation = BeerDetails.ShowBeerDetails.Response.Fermentation(temp: BeerDetails.ShowBeerDetails.Response.Temp(value: beerDetailsJSON.method.fermentation.temp.value, unit: beerDetailsJSON.method.fermentation.temp.unit))
+        let twist = beerDetailsJSON.method.twist
+        let response = BeerDetails.ShowBeerDetails.Response(name: name, abv: abv, imageUrl: imageUrl, description: description, hops: hops, malts: malts, mashTemps: mashTemps, fermentation: fermentation, twist: twist)
         self.presenter?.presentBeerDetails(response: response)
     }
     
+    func hopsForJSON(_ hopsJSON: [HopJSON]) -> [BeerDetails.ShowBeerDetails.Response.Hop] {
+        var hops = [BeerDetails.ShowBeerDetails.Response.Hop]()
+        for hopJSON in hopsJSON {
+            let name = hopJSON.name
+            let amount = amountForJSON(hopJSON.amount)
+            let add = hopJSON.add
+            let attribute = hopJSON.attribute
+            let hop = BeerDetails.ShowBeerDetails.Response.Hop(name: name, amount: amount, add: add, attribute: attribute)
+            hops.append(hop)
+        }
+        return hops
+    }
+    
+    func maltsForJSON(_ maltsJSON: [MaltJSON]) -> [BeerDetails.ShowBeerDetails.Response.Malt] {
+        var malts = [BeerDetails.ShowBeerDetails.Response.Malt]()
+        for maltJSON in maltsJSON {
+            let amount = amountForJSON(maltJSON.amount)
+            let malt = BeerDetails.ShowBeerDetails.Response.Malt(name: maltJSON.name, amount: amount)
+            malts.append(malt)
+        }
+        return malts
+    }
+    
+    func amountForJSON(_ amountJSON: AmountJSON) -> BeerDetails.ShowBeerDetails.Response.Amount {
+        let amount = BeerDetails.ShowBeerDetails.Response.Amount(value: amountJSON.value, unit: amountJSON.unit)
+        return amount
+    }
+    
+    func mashTempsForJSON(_ mashTempsJSON: [MashTempJSON]) -> [BeerDetails.ShowBeerDetails.Response.MashTemp] {
+        var mashTemps = [BeerDetails.ShowBeerDetails.Response.MashTemp]()
+        for mashTempJSON in mashTempsJSON {
+            let temp = BeerDetails.ShowBeerDetails.Response.Temp(value: mashTempJSON.temp.value, unit: mashTempJSON.temp.unit)
+            let mashTemp = BeerDetails.ShowBeerDetails.Response.MashTemp(temp: temp, duration: mashTempJSON.duration)
+            mashTemps.append(mashTemp)
+        }
+        return mashTemps
+    }
 }
 
 extension BeerDetailsInteractor: BeerDetailsBusinessLogic {

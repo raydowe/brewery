@@ -22,6 +22,7 @@ class BeerDetailsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
 
     var beerId: Int?
+    var sections: [BeerDetails.ShowBeerDetails.ViewModel.Section]?
 
     convenience init() {
         self.init(beerId: nil)
@@ -52,21 +53,42 @@ class BeerDetailsViewController: UIViewController {
 
 extension BeerDetailsViewController: BeerDetailsDisplayLogic {
     func displayBeerDetails(viewModel: BeerDetails.ShowBeerDetails.ViewModel) {
-        
+        DispatchQueue.main.async {
+            self.nameLabel.text = viewModel.name
+            self.abvLabel.text = viewModel.abv
+            self.descriptionTextView.text = viewModel.description
+            self.sections = viewModel.sections
+            self.tableView.reloadData()
+        }
     }
 }
 
 extension BeerDetailsViewController: UITableViewDataSource {
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections?.count ?? 0
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        guard let section = sections?[section] else {
+            return 0
+        }
+        return section.items.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let section = sections?[section] else {
+            return "?"
+        }
+        return section.title
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let beerViewModel = self.beersViewModels[indexPath.row]
         let beerDetailsTableViewCell = tableView.dequeueReusableCell(withIdentifier: "BeerDetailsTableViewCell", for: indexPath) as! BeerDetailsTableViewCell
-        //beerDetailsTableViewCell.display(beerViewModel: beerViewModel)
+        if let section = sections?[indexPath.section] {
+            let textContent = section.items[indexPath.row]
+            beerDetailsTableViewCell.contentLabel.text = textContent
+        }
         return beerDetailsTableViewCell
     }
-    
-    
 }

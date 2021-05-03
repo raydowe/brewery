@@ -9,6 +9,8 @@ import UIKit
 
 class BeerDetailsTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var contentLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
