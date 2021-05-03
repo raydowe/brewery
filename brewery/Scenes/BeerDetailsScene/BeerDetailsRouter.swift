@@ -16,9 +16,9 @@ class BeerDetailsRouter {
 
     private var viewController: BeerDetailsDisplayLogic?
 
-    static func assemble() -> BeerDetailsDisplayLogic {
+    static func assemble(beerId: Int) -> BeerDetailsDisplayLogic {
 
-        let viewController = BeerDetailsViewController()
+        let viewController = BeerDetailsViewController(beerId: beerId)
         let presenter = BeerDetailsPresenter()
         let router = BeerDetailsRouter()
         let interactor = BeerDetailsInteractor()

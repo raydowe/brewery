@@ -37,7 +37,7 @@ extension BeersRouter: BeersNavigation {
 
     // MARK: navigation logic methods
     func navigateToBeer(id: Int) {
-        guard let beerDetailsViewController = BeerDetailsRouter.assemble() as? UIViewController,
+        guard let beerDetailsViewController = BeerDetailsRouter.assemble(beerId: id) as? UIViewController,
               let beersViewController = self.viewController as? UIViewController else {
             return
         }

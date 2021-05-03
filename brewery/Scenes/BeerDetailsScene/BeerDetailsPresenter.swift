@@ -9,7 +9,7 @@
 import Foundation
 
 protocol BeerDetailsPresentationLogic {
-    func presentAvailableMenu(response: BeerDetails.ShowBeerDetails.Response)
+    func presentBeerDetails(response: BeerDetails.ShowBeerDetails.Response)
 }
 
 class BeerDetailsPresenter {
@@ -17,8 +17,16 @@ class BeerDetailsPresenter {
 }
 
 extension BeerDetailsPresenter: BeerDetailsPresentationLogic {
-    func presentAvailableMenu(response: BeerDetails.ShowBeerDetails.Response) {
-        let viewModel = BeerDetails.ShowBeerDetails.ViewModel()
+    func presentBeerDetails(response: BeerDetails.ShowBeerDetails.Response) {
+        let name = response.name
+        let abv = "\(response.name)% ABV"
+        let imageUrl = response.imageUrl
+        let description = response.description
+        let hopsSection = BeerDetails.ShowBeerDetails.ViewModel.Section(title: "Hops", items: response.hops)
+        let maltSection = BeerDetails.ShowBeerDetails.ViewModel.Section(title: "Malts", items: response.malts)
+        let methodsSection = BeerDetails.ShowBeerDetails.ViewModel.Section(title: "Methods", items: response.methods)
+        let sections = [hopsSection, maltSection, methodsSection]
+        let viewModel = BeerDetails.ShowBeerDetails.ViewModel(name: name, abv: abv, imageUrl: imageUrl, description: description, sections: sections)
         viewController?.displayBeerDetails(viewModel: viewModel)
     }
 
