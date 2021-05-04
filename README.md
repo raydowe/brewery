@@ -22,4 +22,5 @@ Given the time, there are a number of improvements I would consider, in rough or
 - Extending test coverage. The interactor and presenter of each scene should really have tests. A simple UI test could covering the navigation from menu to details view and back again could also be justified.
 - Extending dependency injection. A few classes are tied directly to an object type instead of an interface, such as the interactors being tied to the downloaders + parsers. These should be changed to an interface and injected, which would greatly aid in the above mentioned testing.
 - Error handling. Currently, the application is mostly tied to the happy path, with little consideration for problems that could arise in the real world like connectivity issues, bad JSON data formats, ect.
+- Migration to SwiftUI. I originally attempted combining the CleanSwift pattern with SwiftUI, but it would involve a personal level of research and testing that would go beyond the scope of what I need to provide here.
 - The UI. It hasn't been designed to be compatible with all possible devices. It's also not pretty, but it works.
