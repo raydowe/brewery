@@ -6,10 +6,10 @@ The brewery application creates a menu of available beers based on a set of cust
 
 ## How Does It Work?
 The application loads a data file, which indicates:
- - The number of beers to brew
+ - The number of beers to brew (n)
  - The preferences of each customer, showing which beers they prefer and in which style (classic or barrel aged)
 
-From that a menu with beers from 1->n is produced. Because we want to minimise the number of barrel aged beers we need to create in order to satisfy everyone, we start with a menu that is entirely classic. We then loop through all the possible menus with increasing numbers of barrel aged beers to until we find a menu that satisfies all the customers. Because we're checking in this order, we can be confident that we're only producing as many barrel aged beers as is required. If we exhaust all options and still haven't found a satisfactory menu, we know a solution isn't possible.
+From that, a menu with beers from 1->n is produced. Because we want to minimise the number of barrel aged beers we need to create in order to satisfy everyone, we start with a menu that is entirely classic. We then loop through all the possible menus with increasing numbers of barrel aged beers to until we find a menu that satisfies all the customers. Because we're checking in this order, we can be confident that we're only producing as many barrel aged beers as is required. If we exhaust all options and still haven't found a satisfactory menu, we know a solution isn't possible.
 
 ## Architecture
 The application is build with CleanSwift design pattern. https://clean-swift.com/. Each ViewController follows a View -> Interactor -> Presenter -> View cycle to display new data.
