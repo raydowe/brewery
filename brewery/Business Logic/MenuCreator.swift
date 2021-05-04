@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combinatorics
 
 internal protocol IMenuCreator {
     func generateMenu(beerCount: Int, customerPreferences:[CustomerPreference]) -> Menu?
@@ -48,7 +47,7 @@ internal class MenuCreator: IMenuCreator {
     private func possibleUpgrades(ids: [Int]) -> [[Int]] {
         var upgradeIndexes = [[Int]]()
         for upgradeCount in 0...ids.count {
-            let combinations = Combinatorics.permutationsWithRepetitionFrom(ids, taking: upgradeCount)
+            let combinations = allPossibleBeerUpgrades(beerIds: ids, numUpgrades: upgradeCount)
             upgradeIndexes.append(contentsOf: combinations)
         }
         return upgradeIndexes
@@ -87,5 +86,17 @@ internal class MenuCreator: IMenuCreator {
             }
         }
         return true
+    }
+    
+    private func allPossibleBeerUpgrades(beerIds: [Int], numUpgrades: Int) -> [[Int]] {
+        guard beerIds.count >= 0 && numUpgrades > 0 else { return [[]] }
+        if numUpgrades == 1 {
+            return beerIds.map {[$0]}
+        }
+        var permutations = [[Int]]()
+        for beerId in beerIds {
+            permutations += allPossibleBeerUpgrades(beerIds: beerIds, numUpgrades: numUpgrades - 1).map {[beerId] + $0}
+        }
+        return permutations
     }
 }

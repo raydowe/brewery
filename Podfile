@@ -6,7 +6,6 @@ target 'brewery' do
   use_frameworks!
 
   # Pods for brewery
-  pod 'Combinatorics'
   pod 'SwiftHTTP'
 
   target 'breweryTests' do
